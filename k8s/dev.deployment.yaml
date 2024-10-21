@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: react-app
-          image: tejumasha/react-app1:latest  
+          image: tejumasha/react-app:latest  
           ports:
             - containerPort: 3000
           
