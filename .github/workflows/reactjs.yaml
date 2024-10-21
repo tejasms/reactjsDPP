@@ -51,11 +51,7 @@ jobs:
     
       
    
-    - name: Run deployment on EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@54.197.200.42 << 'EOF'
-         # Commands to run on EC2
-         minikube start
-         kubectl apply -f k8s/dev.deployment.yaml
-         kubectl apply -f k8s/service.yaml
-        EOF
+    - name: Set up kubectl and kubecontext
+        uses: azure/k8s-set-context@v1
+        with:
+          kubeconfig: ${{ secrets.KUBECONFIG_PREPROD }}
