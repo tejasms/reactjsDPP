@@ -30,7 +30,7 @@ jobs:
         context: .
         file: Dockerfile
         push: true
-        tags: your-dockerhub-username/your-app-name:latest
+        tags: tejumasha/react-app:latest
 
 
   deploy:
