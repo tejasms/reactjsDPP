@@ -2,9 +2,9 @@ name: reactapplication CICD
 
 on:
   push:
-    branches: [ "tejas" ]
+    branches: [ "devenv" ]
   pull_request:
-    branches: [ "tejas" ]
+    branches: [ "devenv" ]
 
 jobs:
   build:
@@ -16,30 +16,40 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: reactjs application
-      uses: actions/setup-node@v4
-      with:
-        node-version: 18
-        cache: 'npm'
-    - run: |
-           git config --global user.email "example@tejas.com"
-           git config --global user.name "tejas"    
-    - run: npm install  
-    - run: npm install -g create-react-app
-    - run: npm ci
-    - run: npm install gh-pages --save-devgit
-    - run: npm run build
-    - run: git add -f build/
-    - run: git status
-    - run: git commit -m "p2"   
-    - name: Install AWS CLI
-      run: |
-           sudo apt-get install awscli
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
-    - name: Upload to S3
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: user/app:latest
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up AWS CLI
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }} 
+
+    - name: Deploy to Minikube
       run: |
-           aws s3 cp build/ s3://githubactionss377/ --recursive
-      env:
-       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-       AWS_REGION: us-east-1
+        kubectl apply -f k8s/dev.deployment.yaml
+      
    
