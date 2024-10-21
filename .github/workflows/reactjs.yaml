@@ -52,6 +52,6 @@ jobs:
       
    
     - name: Set up kubectl and kubecontext
-        uses: azure/k8s-set-context@v1
-        with:
-          kubeconfig: ${{ secrets.KUBECONFIG_PREPROD }}
+      uses: azure/k8s-set-context@v1
+      with:
+        kubeconfig: ${{ secrets.KUBECONFIG_PREPROD }}
