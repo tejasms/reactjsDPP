@@ -56,7 +56,7 @@ jobs:
       with:
         kubeconfig: ${{ secrets.KUBECONFIG_PREPROD }}
 
-   - name: Deploy to Kubernetes
-     run: |
+    - name: Deploy to Kubernetes
+      run: |
         kubectl apply -f k8s/dev.deployment.yaml
          
