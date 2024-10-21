@@ -50,6 +50,6 @@ jobs:
 
     - name: Deploy to Minikube
       run: |
-        kubectl apply -f k8s/dev.deployment.yaml
+        kubectl apply -f k8s/dev.deployment.yaml --validate=false
       
    
