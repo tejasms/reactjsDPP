@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: react-app-service
+  name: react-app
   namespace: dev1  
 spec:
   type: NodePort
