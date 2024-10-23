@@ -59,4 +59,5 @@ jobs:
     - uses: Azure/k8s-deploy@v5
       with: 
         manifests: |
+            ls
             k8s/devdeployment.yaml --validate=false   
