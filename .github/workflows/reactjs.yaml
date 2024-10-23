@@ -57,6 +57,6 @@ jobs:
         kubeconfig: ${{ secrets.KUBECONFIG_PREPROD }}
 
     - uses: Azure/k8s-deploy@v5
-      with:
+      with: 
         manifests: |
-            k8s/devdeployment.yaml         
+            k8s/devdeployment.yaml --validate=false   
